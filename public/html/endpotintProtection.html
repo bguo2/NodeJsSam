@@ -1,0 +1,54 @@
+<!--do not define ng-controller here if it is defined in routing, otherwise the controller will be instantiated twice and calls in scope will be called twice-->
+<!-- div ng-controller="epController" -->
+<div>
+    <h4>Endpoint Protection page, account Id: {{supportAccountId}}</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Serial Number</th>
+                <th>Auth Code</th>
+                <th>Quantity</th>
+                <th>License</th>
+                <th>Expiration Date</th>
+                <th>ASC</th>
+                <th>Device Name</th>
+                <th>Device Tag</th>
+                <th>Actions/Software Download</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="row in epResult">
+                <td style="vertical-align: middle;">{{ row[0].SerialNumber }}</td>
+                <td>
+                    <div ng-repeat="x in row">{{x.AuthorizationCode}}</div>
+                </td>
+                <td>
+                    <div ng-repeat="x in row">{{x.UseCount > 0 ? x.UseCount : '&nbsp;'}}</div>
+                </td>
+                <td>
+                    <div ng-repeat="x in row">{{x.LicenseName}}</div>
+                </td>
+                <td>
+                    <div ng-repeat="x in row">{{ x.IsEsm === 1 ? 'Perpetual' : (x.ExpirationDate | date :  "MM/d/yyyy") }}
+                    </div>
+                </td>
+                <td>
+                     {{row[0].ASCName != null ? row[0].ASCName : '&nbsp;'}}
+                </td style="vertical-align: middle;">
+                <td style="vertical-align: middle;">
+                    {{row[0].DeviceName != null ? row[0].DeviceName : '&nbsp;'}}
+                </td>
+                <td style="vertical-align: middle;">
+                    {{row[0].DeviceTag != null ? row[0].DeviceTag : '&nbsp;'}}
+                </td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+    <div>
+        <div id="pagination" style="float: left; margin-top:-20px"></div>
+        <div style="float: left; margin-left:20px;">
+            <select ng-model="itemsPerPage" ng-options="x for x in itemsOnPage" style="height:32px; width:45px;"></select> &nbsp;items per page
+        </div>
+    </div>
+</div>
